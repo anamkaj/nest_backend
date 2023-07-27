@@ -1,7 +1,7 @@
-import { PrismaService } from 'src/db/prisma.service'
-import { GetParamProduct, ProductDto } from './dto/product.dto'
+import { PrismaService } from "src/db/prisma.service";
+import { GetParamProduct, ProductDto } from "./dto/product.dto";
 
-import { Injectable } from '@nestjs/common'
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class ProductService {
@@ -49,10 +49,11 @@ export class ProductService {
           },
         ],
       },
-      take: Number(body.take) * Number(body.skip),
-    })
+      skip: Number(body.skip),
+      take: Number(body.take),
+    });
 
-    return getAllProduct
+    return getAllProduct;
   }
 
   //_________________________________________
@@ -99,12 +100,13 @@ export class ProductService {
       },
 
       orderBy: {
-        watchProduct: 'desc',
+        watchProduct: "desc",
       },
-      take: Number(body.take) * Number(body.skip),
-    })
+      skip: Number(body.skip),
+      take: Number(body.take),
+    });
 
-    return sortByPopularity
+    return sortByPopularity;
   }
 
   async sortByPriceAsc(body: GetParamProduct) {
@@ -147,12 +149,13 @@ export class ProductService {
       },
 
       orderBy: {
-        price: 'asc',
+        price: "asc",
       },
-      take: Number(body.take) * Number(body.skip),
-    })
+      skip: Number(body.skip),
+      take: Number(body.take),
+    });
 
-    return sortByPriceAsc
+    return sortByPriceAsc;
   }
 
   async sortByPriceDesc(body: GetParamProduct) {
@@ -195,12 +198,13 @@ export class ProductService {
       },
 
       orderBy: {
-        price: 'desc',
+        price: "desc",
       },
-      take: Number(body.take) * Number(body.skip),
-    })
+      skip: Number(body.skip),
+      take: Number(body.take),
+    });
 
-    return sortByPriceDesc
+    return sortByPriceDesc;
   }
 
   async sortByRatingDesc(body: GetParamProduct) {
@@ -243,12 +247,13 @@ export class ProductService {
       },
 
       orderBy: {
-        rating: 'desc',
+        rating: "desc",
       },
-      take: Number(body.take) * Number(body.skip),
-    })
+      skip: Number(body.skip),
+      take: Number(body.take),
+    });
 
-    return sortByRatingDesc
+    return sortByRatingDesc;
   }
 
   async sortByRewivesDesc(body: GetParamProduct) {
@@ -291,13 +296,14 @@ export class ProductService {
       },
 
       orderBy: {
-        countReviews: 'desc',
+        countReviews: "desc",
       },
 
-      take: Number(body.take) * Number(body.skip),
-    })
+      skip: Number(body.skip),
+      take: Number(body.take),
+    });
 
-    return sortByRewivesDesc
+    return sortByRewivesDesc;
   }
 
   //_____________________________________________________________
@@ -334,9 +340,9 @@ export class ProductService {
         ],
       },
       take: Number(body.take),
-    })
+    });
 
-    return getMainCategoryProduct
+    return getMainCategoryProduct;
   }
 
   //_____________________________________________________________
@@ -348,19 +354,19 @@ export class ProductService {
       where: {
         id: Number(body.id),
       },
-    })
+    });
 
-    return oneProduct
+    return oneProduct;
   }
 
   async popularProduct() {
     const popularProduct = this.prisma.product.findMany({
       orderBy: {
-        watchProduct: 'desc',
+        watchProduct: "desc",
       },
       take: 12,
-    })
+    });
 
-    return popularProduct
+    return popularProduct;
   }
 }
