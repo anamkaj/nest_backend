@@ -1,24 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Query } from '@nestjs/common'
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Query,
+} from "@nestjs/common";
 
-import { SearchDto } from './dto/search.dto'
-import { SearchService } from './search.service'
+import { SearchDto } from "./dto/search.dto";
+import { SearchService } from "./search.service";
 
 @Controller()
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
-  @Get('/searchProduct')
+  @Get("/searchProduct")
   @HttpCode(200)
   async productSearch(@Query() body: SearchDto) {
     if (Number(body.input)) {
-      return this.searchService.resultArticle(body)
+      return this.searchService.resultArticle(body);
     } else {
-      return this.searchService.resultSearch(body)
+      return this.searchService.resultSearch(body);
     }
   }
-  @Get('/searchCategory')
+  @Get("/searchCategory")
   @HttpCode(200)
   async categorySearch(@Query() body: SearchDto) {
-    return this.searchService.resultCategory(body)
+    return this.searchService.resultCategory(body);
+  }
+
+  @Get("/searchCatalogFilter")
+  @HttpCode(200)
+  async searchCatalogFilter(@Query() body: any) {
+    return this.searchService.searchCatalogFilter(body);
   }
 }
