@@ -28,7 +28,6 @@ export class SearchService {
 
       take: 5,
     });
-
     return resultSearch;
   }
 
@@ -74,7 +73,8 @@ export class SearchService {
     const searchCatalog = await this.prisma.product.findMany({
       where: {
         paramsProduct: {
-          array_contains: ["Экран", "черный"],
+          path: ["Вес"],
+          string_contains: "",
         },
       },
     });

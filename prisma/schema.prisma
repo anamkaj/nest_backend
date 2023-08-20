@@ -37,7 +37,7 @@ model Product {
   inStock        Boolean    @default(true)
   quantity       Int        @default(50)
   discount       Int        @default(10)
-  brend          String
+  brand          String
   article        Int        @default(2111)
   categoryId     Int?
   other          String[]

@@ -25,6 +25,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -34,21 +38,35 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
+
           {
             category: {
               parentCategory: {
                 id: Number(body.id),
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
               id: Number(body.id),
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
         ],
       },
+
       skip: Number(body.skip),
       take: Number(body.take),
     });
@@ -56,11 +74,66 @@ export class ProductService {
     return getAllProduct;
   }
 
+  async getAllProductNotFilter(id: number) {
+    const getAllProductNotFilter = this.prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            category: {
+              parentCategory: {
+                parentCategory: {
+                  parentCategory: {
+                    id: id,
+                  },
+                },
+              },
+            },
+          },
+          {
+            category: {
+              parentCategory: {
+                parentCategory: {
+                  id: id,
+                },
+              },
+            },
+          },
+
+          {
+            category: {
+              parentCategory: {
+                id: id,
+              },
+            },
+          },
+          {
+            category: {
+              id: id,
+            },
+          },
+        ],
+      },
+    });
+    const product = await getAllProductNotFilter;
+    const length: number = product.length;
+    const maxPrice: number = Math.max.apply(
+      Math,
+      product.map((x) => x.price)
+    );
+    const minPrice: number = Math.min.apply(
+      Math,
+      product.map((x) => x.price)
+    );
+    return JSON.stringify({ length, maxPrice, minPrice });
+  }
+
   //_________________________________________
   // Роут фильтрацию из Хедера
   //_________________________________________
 
   async sortByPopularity(body: GetParamProduct) {
+    console.log(body);
+    const brand = body.brand.split(",");
     const sortByPopularity = this.prisma.product.findMany({
       where: {
         OR: [
@@ -74,6 +147,16 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
           },
           {
             category: {
@@ -83,18 +166,49 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
           },
+
           {
             category: {
               parentCategory: {
                 id: Number(body.id),
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
           },
           {
             category: {
               id: Number(body.id),
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
           },
         ],
       },
@@ -110,6 +224,7 @@ export class ProductService {
   }
 
   async sortByPriceAsc(body: GetParamProduct) {
+    console.log(body);
     const sortByPriceAsc = this.prisma.product.findMany({
       where: {
         OR: [
@@ -123,6 +238,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -132,6 +251,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -139,10 +262,18 @@ export class ProductService {
                 id: Number(body.id),
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
               id: Number(body.id),
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
             },
           },
         ],
@@ -159,6 +290,7 @@ export class ProductService {
   }
 
   async sortByPriceDesc(body: GetParamProduct) {
+    console.log(body);
     const sortByPriceDesc = this.prisma.product.findMany({
       where: {
         OR: [
@@ -172,6 +304,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -181,6 +317,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -188,10 +328,18 @@ export class ProductService {
                 id: Number(body.id),
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
               id: Number(body.id),
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
             },
           },
         ],
@@ -221,6 +369,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -230,6 +382,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -237,10 +393,18 @@ export class ProductService {
                 id: Number(body.id),
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
               id: Number(body.id),
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
             },
           },
         ],
@@ -270,6 +434,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -279,6 +447,10 @@ export class ProductService {
                 },
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
@@ -286,10 +458,18 @@ export class ProductService {
                 id: Number(body.id),
               },
             },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
           },
           {
             category: {
               id: Number(body.id),
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
             },
           },
         ],
@@ -368,5 +548,51 @@ export class ProductService {
     });
 
     return popularProduct;
+  }
+
+  async brandFilter(id: number) {
+    const brandFilter = this.prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            category: {
+              parentCategory: {
+                parentCategory: {
+                  parentCategory: {
+                    id: Number(id),
+                  },
+                },
+              },
+            },
+          },
+          {
+            category: {
+              parentCategory: {
+                parentCategory: {
+                  id: Number(id),
+                },
+              },
+            },
+          },
+
+          {
+            category: {
+              parentCategory: {
+                id: Number(id),
+              },
+            },
+          },
+          {
+            category: {
+              id: Number(id),
+            },
+          },
+        ],
+      },
+    });
+
+    const brandArray = (await brandFilter).map((x) => x.brand);
+
+    return JSON.stringify(brandArray);
   }
 }
