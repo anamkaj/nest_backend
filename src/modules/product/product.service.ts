@@ -595,4 +595,90 @@ export class ProductService {
 
     return JSON.stringify(brandArray);
   }
+
+  async countFilterProduct(body: GetParamProduct) {
+    console.log(body);
+    const brand = body.brand.split(",");
+    const countFilterProduct = this.prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            category: {
+              parentCategory: {
+                parentCategory: {
+                  parentCategory: {
+                    id: Number(body.id),
+                  },
+                },
+              },
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
+          },
+          {
+            category: {
+              parentCategory: {
+                parentCategory: {
+                  id: Number(body.id),
+                },
+              },
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
+          },
+
+          {
+            category: {
+              parentCategory: {
+                id: Number(body.id),
+              },
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
+          },
+          {
+            category: {
+              id: Number(body.id),
+            },
+            price: {
+              lte: Number(body.priceMax),
+              gte: Number(body.priceMin),
+            },
+            brand:
+              body.brand.length !== 0
+                ? { in: brand, mode: "insensitive" }
+                : {
+                    contains: "",
+                  },
+          },
+        ],
+      },
+    });
+
+    return (await countFilterProduct).length;
+  }
 }

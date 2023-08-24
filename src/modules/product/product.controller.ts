@@ -83,4 +83,9 @@ export class ProductController {
     console.log(id);
     return this.productService.brandFilter(Number(id));
   }
+  @Get("/all/countFilterProduct")
+  @HttpCode(200)
+  async countFilterProduct(@Query() body: GetParamProduct) {
+    return this.productService.countFilterProduct(body);
+  }
 }
