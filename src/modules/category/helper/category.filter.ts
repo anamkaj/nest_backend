@@ -1,6 +1,9 @@
-import { Category, ICategory, IChildrenCategory } from '../category.dto'
+
 
 // Функция создания плоского массива всех групп
+
+import { Category } from "@prisma/client"
+import { ICategory, IChildrenCategory } from "../dto/category.dto"
 
 export const categoryFlatArray = (data: ICategory[], id: number) => {
   const flatCategory: Category[] = []

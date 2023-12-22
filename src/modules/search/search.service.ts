@@ -69,15 +69,15 @@ export class SearchService {
     return resultCategory;
   }
 
-  async searchCatalogFilter(body: any) {
-    const searchCatalog = await this.prisma.product.findMany({
-      where: {
-        paramsProduct: {
-          path: ["Вес"],
-          string_contains: "",
-        },
-      },
-    });
-    return searchCatalog;
-  }
+  // async searchCatalogFilter(body: any) {
+  //   const searchCatalog = await this.prisma.product.findMany({
+  //     where: {
+  //       paramsProduct: {
+  //         path: ["Вес"],
+  //         string_contains: "",
+  //       },
+  //     },
+  //   });
+  //   return searchCatalog;
+  // }
 }

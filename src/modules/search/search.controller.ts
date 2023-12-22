@@ -27,9 +27,9 @@ export class SearchController {
     return this.searchService.resultCategory(body);
   }
 
-  @Get("/searchCatalogFilter")
-  @HttpCode(200)
-  async searchCatalogFilter(@Query() body: any) {
-    return this.searchService.searchCatalogFilter(body);
-  }
+  // @Get("/searchCatalogFilter")
+  // @HttpCode(200)
+  // async searchCatalogFilter(@Query() body: any) {
+  //   return this.searchService.searchCatalogFilter(body);
+  // }
 }

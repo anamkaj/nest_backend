@@ -22,33 +22,33 @@ model Category {
 }
 
 model Product {
-  id             Int        @id @default(autoincrement())
+  id             Int          @id @default(autoincrement())
   title          String
   type           String
-  paramsProduct  Json
-  shortParam     Json
   price          Int
   descriptionOne String
   imgLink        String[]
   altImg         String
   tag            String[]
-  rating         Int        @default(1)
-  watchProduct   Int        @default(12)
-  inStock        Boolean    @default(true)
-  quantity       Int        @default(50)
-  discount       Int        @default(10)
+  rating         Int          @default(1)
+  watchProduct   Int          @default(12)
+  inStock        Boolean      @default(true)
+  quantity       Int          @default(50)
+  discount       Int          @default(10)
   brand          String
-  article        Int        @default(2111)
+  article        Int          @default(5677)
   categoryId     Int?
   other          String[]
   warranty       Int
   imgFolder      String?
-  countReviews   Int?       @default(0)
-  buyAlready     Int?       @default(0)
-  brendImg       String?
-  category       Category?  @relation(fields: [categoryId], references: [id])
+  countReviews   Int?         @default(0)
+  buyAlready     Int?         @default(0)
+  brandImg       String?
+  FullParam      FullParam[]
+  category       Category?    @relation(fields: [categoryId], references: [id])
   reviews        Reviews[]
   services       Services[]
+  ShortParam     ShortParam[]
 }
 
 model Reviews {
@@ -101,4 +101,20 @@ model Post {
   title String?
   post  String?
   img   String?
+}
+
+model FullParam {
+  id        Int      @id @default(autoincrement())
+  key       String?
+  value     String?
+  productId Int?
+  Product   Product? @relation(fields: [productId], references: [id])
+}
+
+model ShortParam {
+  id        Int      @id @default(autoincrement())
+  key       String?
+  value     String?
+  productId Int?
+  Product   Product? @relation(fields: [productId], references: [id])
 }

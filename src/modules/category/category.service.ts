@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common'
-import { Category, GetParamCategory, ICategory, IChildrenCategory } from './dto/category.dto'
-import { PrismaService } from 'src/db/prisma.service'
-import { categoryFlatArray } from './dto/helper/category.filter'
+import { Injectable } from "@nestjs/common";
+import { GetParamCategory } from "./dto/category.dto";
+import { PrismaService } from "src/db/prisma.service";
+import { categoryFlatArray } from "./helper/category.filter";
 
 @Injectable()
 export class CategoryService {
@@ -22,18 +22,18 @@ export class CategoryService {
           },
         },
       },
-    })
+    });
 
     // Фильтрация из всех категорий одну
 
-    const category = await categoryAll
+    const category = await categoryAll;
 
     // addStore(category)
 
     // if (filterCat(body.id)) {
     //   return flatArrayCategory
     // }
-    return categoryFlatArray(category, body.id)
+    return categoryFlatArray(category, body.id);
   }
 
   async nullCategory() {
@@ -49,6 +49,6 @@ export class CategoryService {
           },
         },
       },
-    })
+    });
   }
 }

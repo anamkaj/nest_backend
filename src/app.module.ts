@@ -6,6 +6,8 @@ import { ReviewsModule } from './modules/reviews/reviews.module'
 import { ProductModule } from './modules/product/product.module'
 import { CountsModule } from './modules/count/counts.module'
 import { PostModule } from './modules/post/post.module'
+import { FilterModule } from './modules/filter/filter.module'
+
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { PostModule } from './modules/post/post.module'
     CountsModule,
     SearchModule,
     PostModule,
+    FilterModule,
   ],
   controllers: [],
 })
