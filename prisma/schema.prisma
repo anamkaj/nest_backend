@@ -1,0 +1,120 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id                 Int        @id @default(autoincrement())
+  name               String     @unique
+  parentCategoryId   Int?       @map("parentId")
+  description        String?
+  img                String?
+  slug               String?
+  folderImg          String?
+  parentCategory     Category?  @relation("categories_children", fields: [parentCategoryId], references: [id])
+  childrenCategories Category[] @relation("categories_children")
+  products           Product[]
+}
+
+model Product {
+  id             Int          @id @default(autoincrement())
+  title          String
+  type           String
+  price          Int
+  descriptionOne String
+  imgLink        String[]
+  altImg         String
+  tag            String[]
+  rating         Int          @default(1)
+  watchProduct   Int          @default(12)
+  inStock        Boolean      @default(true)
+  quantity       Int          @default(50)
+  discount       Int          @default(10)
+  brand          String
+  article        Int          @default(5677)
+  categoryId     Int?
+  other          String[]
+  warranty       Int
+  imgFolder      String?
+  countReviews   Int?         @default(0)
+  buyAlready     Int?         @default(0)
+  brandImg       String?
+  FullParam      FullParam[]
+  category       Category?    @relation(fields: [categoryId], references: [id])
+  reviews        Reviews[]
+  services       Services[]
+  ShortParam     ShortParam[]
+}
+
+model Reviews {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  text       String
+  productId  Int
+  categoryId Int?
+  userId     Int?
+  rating     Int?
+  like       Int      @default(0)
+  dislike    Int      @default(0)
+  product    Product  @relation(fields: [productId], references: [id])
+  User       User?    @relation(fields: [userId], references: [id])
+}
+
+model Services {
+  id        Int     @id
+  name      String
+  price     Int
+  productId Int
+  Product   Product @relation(fields: [productId], references: [id])
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  password  String
+  email     String    @unique
+  createdAt DateTime  @default(now())
+  rating    Int?
+  level     String?
+  avatar    String?
+  order     Order[]
+  reviews   Reviews[]
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  productName String[]
+  fullPrice   Int
+  comment     String
+  createdAt   DateTime @default(now())
+  userId      Int?
+  user        User?    @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id    Int     @id @default(autoincrement())
+  title String?
+  post  String?
+  img   String?
+}
+
+model FullParam {
+  id        Int      @id @default(autoincrement())
+  key       String?
+  value     String?
+  productId Int?
+  Product   Product? @relation(fields: [productId], references: [id])
+}
+
+model ShortParam {
+  id        Int      @id @default(autoincrement())
+  key       String?
+  value     String?
+  productId Int?
+  Product   Product? @relation(fields: [productId], references: [id])
+}
