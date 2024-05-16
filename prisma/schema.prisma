@@ -84,6 +84,7 @@ model User {
   avatar    String?
   order     Order[]
   reviews   Reviews[]
+  role      Role
 }
 
 model Order {
@@ -117,4 +118,10 @@ model ShortParam {
   value     String?
   productId Int?
   Product   Product? @relation(fields: [productId], references: [id])
+}
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
 }

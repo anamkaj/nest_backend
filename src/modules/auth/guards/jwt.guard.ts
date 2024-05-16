@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common'
 import { Request } from 'express'
 import { JwtService } from '@nestjs/jwt'
+import { PayloadRefreshToken } from '../dto/guard.type'
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -13,13 +14,16 @@ export class JwtGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest()
 
-    const token = this.extractTokenFromHeader(request)
+    const token: string = this.extractTokenFromHeader(request)
     if (!token) throw new UnauthorizedException('Отсутствует токен')
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: process.env.jwtSecretKey,
-      })
+      const payload: PayloadRefreshToken = await this.jwtService.verifyAsync(
+        token,
+        {
+          secret: process.env.jwtSecretKey,
+        },
+      )
       request['user'] = payload
     } catch (error) {
       throw new UnauthorizedException('Ошибка авторизации')

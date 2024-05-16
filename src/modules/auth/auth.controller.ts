@@ -11,6 +11,8 @@ import { UserDto } from '../user/dto/dto'
 import { LoginDto } from './dto/auth.dto'
 import { AuthService } from './auth.service'
 import { RefreshJwtGuard } from './guards/refresh.guard'
+import { Request } from 'express'
+import { PayloadRefreshToken } from './dto/guard.type'
 
 @Controller('auth')
 export class AuthController {
@@ -34,7 +36,8 @@ export class AuthController {
   @UseGuards(RefreshJwtGuard)
   @Post('/refresh')
   @HttpCode(200)
-  async refreshToken(@Req() req) {
-    return await this.authService.refreshToken(req.user)
+  async refreshToken(@Req() req: Request) {
+    const payload: PayloadRefreshToken = req['user']
+    return await this.authService.refreshToken(payload)
   }
 }

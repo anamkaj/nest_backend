@@ -21,6 +21,7 @@ export class UserService {
       data: {
         ...data,
         password: await hash(data.password, 10),
+        role:"USER"
       },
     })
 
@@ -29,11 +30,13 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: {
         email: email,
       },
     })
+
+    return user
   }
 
   async findById(id: number) {
@@ -45,5 +48,15 @@ export class UserService {
 
     const { password, ...res } = user
     return res
+  }
+
+  async userProfile(email: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    })
+    const { password, ...data } = user
+    return data
   }
 }

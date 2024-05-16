@@ -3,6 +3,9 @@ import { LoginDto } from './dto/auth.dto'
 import { UserService } from '../user/user.service'
 import { compare } from 'bcrypt'
 import { JwtService } from '@nestjs/jwt'
+import { PayloadRefreshToken } from './dto/guard.type'
+
+const EXPIRE_TIME = 5 * 3600
 
 @Injectable()
 export class AuthService {
@@ -23,13 +26,14 @@ export class AuthService {
       user,
       backendTokens: {
         accessToken: await this.jwtService.signAsync(payload, {
-          expiresIn: '1h',
+          expiresIn: '5h',
           secret: process.env.jwtSecretKey,
         }),
         refreshToken: await this.jwtService.signAsync(payload, {
           expiresIn: '7d',
           secret: process.env.jwtRefreshTokenKey,
         }),
+        expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
       },
     }
   }
@@ -46,7 +50,7 @@ export class AuthService {
     )
   }
 
-  async refreshToken(user: any) {
+  async refreshToken(user: PayloadRefreshToken) {
     const payload = {
       username: user.username,
       sub: user.sub,
@@ -55,13 +59,14 @@ export class AuthService {
       user,
       backendTokens: {
         accessToken: await this.jwtService.signAsync(payload, {
-          expiresIn: '1h',
+          expiresIn: '5h',
           secret: process.env.jwtSecretKey,
         }),
         refreshToken: await this.jwtService.signAsync(payload, {
           expiresIn: '7d',
           secret: process.env.jwtRefreshTokenKey,
         }),
+        expiresIn: new Date().setTime(new Date().getTime() + EXPIRE_TIME),
       },
     }
   }
