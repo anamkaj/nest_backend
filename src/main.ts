@@ -9,7 +9,13 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
   app.useGlobalPipes(new ValidationPipe())
   config()
-  app.enableCors()
+
+  app.enableCors({
+    origin: ['https://tmk-v.ru', 'http://localhost:3000'],
+    methods: 'GET,POST,OPTIONS,HEAD',
+    allowedHeaders:
+      'Authorization, Origin, X-Requested-With, Content-Type, Accept',
+  })
 
   await app.listen(4000)
 }
