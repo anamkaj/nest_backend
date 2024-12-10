@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config'
     ConfigModule.forRoot(),
     MailerModule.forRoot({
       transport: {
-        host: 'smtp.timeweb.ru',
+        host: 'smtp.yandex.com',
         port: 465,
         secure: true, // upgrade later with STARTTLS
         logger: true,

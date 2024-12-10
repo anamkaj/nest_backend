@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpCode, UsePipes, ValidationPipe } from '@nestjs/common'
+import { Controller, Post, Body, HttpCode } from '@nestjs/common'
 import { FormService } from './form.service'
 import { DtoDataForm } from './dto/create-form.dto'
 
